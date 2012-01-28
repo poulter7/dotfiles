@@ -1,0 +1,83 @@
+#!/bin/bash  
+#
+export JAVA_HOME='/usr'
+# ~/.bash_tweaks
+# Define some colors:
+red='\e[0;31m'
+RED='\e[1;31m'
+blue='\e[0;34m'
+BLUE='\e[1;34m'
+cyan='\e[0;36m'
+CYAN='\e[1;36m'
+brown='\e[0;33m'
+BROWN='\e[1;33m'
+white='\e[0;37m'
+WHITE='\e[1;37m'
+grey='\e[0;30m'
+GREY='\e[1;30m'
+NC='\e[0m'              # No Color
+TPTP_AC_HOME='/home/test/.eclipse'
+
+# print a greeting
+#echo -e "Hello $(whoami)\n$(date '+%D %H:%M')\n$(fortune -s| cowsay -f color -T' U')\n"
+
+# change the text colour dependent on location
+if [[ "${DISPLAY#$HOST}" != ":0.0" &&  "${DISPLAY}" != ":0" ]]; then      
+    HILIGHT=${red}   # remote machine: prompt will be partly red
+else
+    HILIGHT=${cyan}  # local machine: prompt will be partly cyan
+fi
+
+# update the PS1 text
+#PS1="${HILIGHT}${PS1}${NC}"
+PS1="\[\e]0;\u@\H: \w\a\]${debian_chroot:+($debian_chroot)}\[${WHITE}\][\t]\[${HILIGHT}\] \u@\h\[${brown}\]:\w\$ \[${NC}\]"
+
+
+# AMD OpenCL
+export AMDAPPSDKROOT=/home/jonathan/applications/AMD-APP-SDK-v2.4-lnx64
+export AMDAPPSDKSAMPLEROOT=/home/jonathan/applications/AMD-APP-SDK-v2.4-lnx64
+
+# Add items to Java classpath
+# weka, weka svm libraries and scala
+export CLASSPATH=/usr/share/java/weka-3.6.0.jar:/usr/share/java/wlsvm.jar:/usr/share/java/libsvm.jar:/usr/share/java/scala-library.jar:/usr/slf4j-api-1.6.1.jar:.
+# add the Android tools to the path
+export PATH=/home/test/android-sdks/tools:/home/test/android-sdks/platform-tools:/usr/local/cuda/bin:${PATH}
+export PATH=${PATH}:/usr/local/packages/eclipse/bin/x86_64_linux
+
+
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64:/usr/local/cuda/lib:$AMDAPPSDKROOT/lib/x86_64:$LD_LIBRARY_PATH
+
+
+# Add auto complete to sudo commands
+complete -cf sudo
+
+# <CTRL+x+e> will open up an editor to mess around with the current command
+# use vim as the default editor
+export EDITOR=vim
+
+# Add some custom functions
+if [ -f ~/.bash_functions ]; then
+	source ~/.bash_functions
+fi
+
+# Add custom completion to some commands
+if [ -f ~/.bash_completion ]; then
+	source ~/.bash_completion
+fi
+# I got the following from, and mod'd it: http://www.macosxhints.com/article.php?story=20020716005123797
+#    The following aliases (save & show) are for saving frequently used directories
+#    You can save a directory using an abbreviation of your choosing. Eg. save ms
+#    You can subsequently move to one of the saved directories by using cd with
+#    the abbreviation you chose. Eg. cd ms  (Note that no '$' is necessary.)
+if [ ! -f ~/.dirs ]; then  # if doesn't exist, create it
+		touch ~/.dirs
+	fi
+
+	alias show='cat ~/.dirs'
+	save (){
+			command sed "/!$/d" ~/.dirs > ~/.dirs1; \mv ~/.dirs1 ~/.dirs; echo "$@"=\"`pwd`\" >> ~/.dirs; source ~/.dirs ; 
+		}
+		source ~/.dirs  # Initialization for the above 'save' facility: source the .sdirs file
+		shopt -s cdable_vars # set the bash option so that no '$' is required when using the above facilit
+[[ -s "/usr/local/bin/rvm/scripts/rvm" ]] && source "/usr/local/bin/rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+alias rvm290="rvm use 1.9.2-p290"
