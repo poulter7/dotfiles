@@ -1,4 +1,7 @@
 #! /bin/sh
+alias cf='cucumber -t@focus'
+alias mocp='mocp -T moc-opheus'
+
 
 ## Utils
 alias convert-ogv-mpg='mencoder -ovc lavc -oac mp3lame -o a.mpg -idx'

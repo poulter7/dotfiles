@@ -1,0 +1,23 @@
+#!/bin/bash
+mkdir ~/poulter7setup
+cd ~/poulter7setup
+git clone https://github.com/poulter7/dotfiles
+git clone https://github.com/poulter7/Vim-files
+cd ~
+ln -s ~/poulter7setup/Vim-files/.vimrc
+ln -s ~/poulter7setup/dotfiles/.bash_tweaks
+ln -s ~/poulter7setup/dotfiles/.bash_aliases
+echo '
+# Alias definitions
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi' >> ~/.bash_profile
+
+echo '
+# Terminal tweaks
+# These go alongside this file, and the bash_aliases
+if [ -f ~/.bash_tweaks ]; then
+    . ~/.bash_tweaks
+fi' >> ~/.bash_profile
+
+
