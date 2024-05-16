@@ -31,6 +31,7 @@ alias npm='unalias node ; unalias npm ; nvm use default ; npm $@'
 skip_global_compinit=1
 
 git config --global alias.gone "! git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '\$2 == \"[gone]\" {print \$1}' | xargs -r git branch -D"
+git config branch.master.pushRemote no_push
 alias vz='NVIM_APPNAME=nvim-lazyvim nvim' # LazyVim
 alias vc='NVIM_APPNAME=nvim-nvchad nvim' # NvChad
 alias vk='NVIM_APPNAME=nvim-kickstart nvim' # Kickstart
